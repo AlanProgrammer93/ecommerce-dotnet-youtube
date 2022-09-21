@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\SistemaVenta.ApplicationWeb",
+    "\\SistemaVenta.ApplicationWeb\\Controllers",
+    "\\SistemaVenta.ApplicationWeb\\Views",
+    "\\SistemaVenta.ApplicationWeb\\Views\\Shared",
+    "\\SistemaVenta.ApplicationWeb\\wwwroot",
+    "\\SistemaVenta.IOC"
+  ],
+  "SelectedNode": "\\SistemaVenta.ApplicationWeb\\Views\\Home",
+  "PreviewInSolutionExplorer": false
+}
