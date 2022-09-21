@@ -121,4 +121,100 @@ $("#btnGuardar").click(function(){
 	formData.append("modelo", JSON.stringify(modelo))
 
 	$("#modalData").find("div.modal-content").LoadingOverlay("show");
+
+	if (modelo.idUsuario == 0) {
+		fetch("/Usuario/Crear", {
+			method: "POST",
+			body: formData
+		})
+		.then(res => {
+			$("#modalData").find("div.modal-content").LoadingOverlay("hide");
+			return res.ok ? res.json() : Promise.reject(res)
+		})
+		.then(resJson => {
+			if (resJson.estado) {
+				tablaData.row.add(resJson.objeto).draw(false)
+				$("#modalData").modal("hide")
+				swal("Listo!", "El usuario fue creado.", "success")
+			} else {
+				swal("Error!", resJson.mensaje, "error")
+			}
+		})
+	} else {
+		fetch("/Usuario/Editar", {
+			method: "PUT",
+			body: formData
+		}).then(res => {
+			$("#modalData").find("div.modal-content").LoadingOverlay("hide");
+			return res.ok ? res.json() : Promise.reject(res)
+		})
+		.then(resJson => {
+			if (resJson.estado) {
+				tablaData.row(filaSeleccionada).data(resJson.objeto).draw(false)
+				filaSeleccionada = null
+				$("#modalData").modal("hide")
+				swal("Listo!", "Fue modificado.", "success")
+			} else {
+				swal("Error!", resJson.mensaje, "error")
+			}
+		})
+	}
+})
+
+let filaSeleccionada;
+$("#tbdata tbody").on("click", ".btn-editar", function (){
+	if ($(this).closest("tr").hasClass("child")) {
+		filaSeleccionada = $(this).closest("tr").prev()
+	} else {
+		filaSeleccionada = $(this).closest("tr")
+	}
+
+	const data = tablaData.row(filaSeleccionada).data()
+
+	mostrarModal(data)
+})
+
+$("#tbdata tbody").on("click", ".btn-eliminar", function (){
+	let fila;
+	if ($(this).closest("tr").hasClass("child")) {
+		filaSeleccionada = $(this).closest("tr").prev()
+	} else {
+		filaSeleccionada = $(this).closest("tr")
+	}
+
+	const data = tablaData.row(fila).data()
+
+	swal({
+		title: "Estas seguro?",
+		text: `Eliminar el usuario ${data.nombre}`,
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonClass: "btn-danger",
+		confirmButtonText: "Si, eliminar",
+		cancelButtonText: "No, cancelar",
+		closeOnConfirm: false,
+		closeOnCancel: true,
+	},
+		function(respuesta){
+			if (respuesta) {
+				$(".showSweetAlert").LoadingOverlay("show")
+			
+				fetch(`/Usuario/Eliminar?IdUsuario=${data.idUsuario}`, {
+					method: "DELETE"
+				}).then(res => {
+					$(".showSweetAlert").LoadingOverlay("hide")
+					return res.ok ? res.json() : Promise.reject(res)
+				})
+				.then(resJson => {
+					if (resJson.estado) {
+						tablaData.row(fila).remove().draw()
+						
+						swal("Listo!", "Fue eliminado.", "success")
+					} else {
+						swal("Error!", resJson.mensaje, "error")
+					}
+				})
+			}
+		}
+	)
 })
