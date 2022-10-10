@@ -6,9 +6,11 @@ using SistemaVenta.ApplicationWeb.Models.ViewModels;
 using SistemaVenta.ApplicationWeb.Utilidades.Response;
 using SistemaVenta.BLL.Interfaces;
 using SistemaVenta.Entity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SistemaVenta.ApplicationWeb.Controllers
 {
+    [Authorize]
     public class UsuarioController: Controller
     {
         private readonly IMapper _mapper;

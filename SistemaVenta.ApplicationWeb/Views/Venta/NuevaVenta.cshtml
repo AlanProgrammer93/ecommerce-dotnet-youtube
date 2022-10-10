@@ -5,6 +5,12 @@
 
 @section Estilos {
 <link href="~/vendor/select2/select2.min.css" rel="stylesheet">
+
+<style>
+	.select2 {
+		width: 100% !important;
+	}
+</style>
 }
 
 <div class="row">
@@ -82,8 +88,7 @@
 								<label class="input-group-text" for="cboTipoDocumentoVenta">Tipo</label>
 							</div>
 							<select class="custom-select" id="cboTipoDocumentoVenta">
-								<option value="1">Boleta</option>
-								<option value="2">Factura</option>
+								
 							</select>
 						</div>
 						<div class="input-group input-group-sm mb-3">
@@ -118,7 +123,7 @@
 				<div class="card shadow">
 					<div class="card-body">
 						<div class="form-group mb-0">
-							<button class="btn btn-success btn-sm btn-block" id="btnTerminarVentar">Terminar
+							<button class="btn btn-success btn-sm btn-block" id="btnTerminarVenta">Terminar
 								Venta</button>
 						</div>
 					</div>
@@ -131,4 +136,6 @@
 @section Scripts {
 	<script src="~/vendor/select2/select2.min.js"></script>
     <script src="~/vendor/select2/es.min.js"></script>
+
+    <script src="~/js/vistas/Nueva_venta.js"></script>
 }
